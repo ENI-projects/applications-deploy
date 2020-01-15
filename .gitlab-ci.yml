@@ -1,0 +1,22 @@
+stages:
+  - environment-setup
+  - deploy
+
+setup_envrionement:
+  stage: environment-setup
+  script:
+    - echo $KUBECONFIG | base64 -d | cat $2 > prod-kubeconfig.yml
+  artifacts:
+    paths:
+    - prod-kubeconfig.yml
+
+deploy-bdd:
+  stage: deploy
+  image: registry.gitlab.com/startfleet/gitlab-runner:master
+  dependencies: 
+    - setup_envrionement
+  when: manual
+  script:
+    - export KUBECONFIG=prod-kubeconfig.yml
+    - kubectl -n backend apply backend/bdd/Service.yml
+    - kubectl -n backend apply backend/bdd/Endpoint.yml
