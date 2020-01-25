@@ -20,3 +20,6 @@ deploy-bdd:
     - export KUBECONFIG=prod-kubeconfig.yml
     - kubectl -n backend apply backend/bdd/Service.yml
     - kubectl -n backend apply backend/bdd/Endpoint.yml
+  only:
+    - master
+    - tags
