@@ -1,22 +1,58 @@
 version: '3.6'
 services:
-  postgres:
+  hasura-postgres:
     image: postgres:11-alpine
     restart: always
     volumes:
-    - db_data:/var/lib/postgresql/data
+    - db_hasura_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: hasura_user
+      POSTGRES_PASSWORD: hasura_password
+      POSTGRES_DB: hasura_db
   graphql-engine:
-    image: hasura/graphql-engine:latest
+    image: hasura/graphql-engine:v1.0.0
     ports:
     - "8080:8080"
     depends_on:
-    - "postgres"
+    - hasura-postgres
     restart: always
     environment:
-      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:@postgres:5432/postgres
+      HASURA_GRAPHQL_DATABASE_URL: postgres://hasura_user:hasura_password@hasura-postgres:5432/hasura_db
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       ## uncomment next line to set an admin secret
       # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+  keycloak-postgres:
+    image: postgres:11-alpine
+    restart: always
+    volumes:
+    - db_keycloak_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: keycloak_user
+      POSTGRES_PASSWORD: keycloak_password
+      POSTGRES_DB: keycloak_db
+  keycloak:
+    image: jboss/keycloak:8.0.1
+    volumes:
+    - ./keycloak-importfile:/opt/jboss/keycloak/imports
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: keycloak-postgres
+      DB_PORT: 5432
+      DB_DATABASE: keycloak_db
+      DB_USER: keycloak_user
+      DB_SCHEMA: public
+      DB_PASSWORD: keycloak_password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: Pa55w0rd
+      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+      #JDBC_PARAMS: "ssl=true"
+    ports:
+      - 8081:8080
+    depends_on:
+      - keycloak-postgres
+    command: 
+      - "-Dkeycloak.import=/opt/jboss/keycloak/imports/realm-export.json"
 volumes:
-  db_data:
+  db_hasura_data:
+  db_keycloak_data:
