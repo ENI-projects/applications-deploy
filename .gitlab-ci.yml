@@ -64,6 +64,13 @@ test-deployments:
     - kubectl apply -f backend/hasura/Deployment.yml --dry-run=true
 
 # Deploy
+deploy-namespaces:
+  <<: *deploy-template
+  script:
+    - export KUBECONFIG=$PROD_KUBECONFIG
+    - kubectl apply -f backend/backend-namespace.yml
+    - kubectl apply -f frontend/frontend-namespace.yml
+
 deploy-bdd:
   <<: *deploy-template
   script:
