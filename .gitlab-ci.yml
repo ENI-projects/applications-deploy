@@ -1,29 +1,79 @@
 stages:
-  - environment-setup
+  - build
+  - test
   - deploy
 
-setup_envrionement:
-  stage: environment-setup
+variables:
+  PROD_KUBECONFIG: prod-kubeconfig.yml
+  RUNNER_IMAGE: registry.gitlab.com/startfleet/gitlab-runner:master
+
+## Templates ##
+.test-template: &test-template
+  stage: test
+  image: $RUNNER_IMAGE
+  tags:
+    - startfleet
+
+.deploy-template: &deploy-template
+  stage: deploy
+  image: $RUNNER_IMAGE
+  when: manual
+  only:
+    - tags
+  tags:
+    - startfleet
+## End Templates ##
+
+## Stages ##
+# Build
+build-kubeconfig:
+  stage: build
   script:
-    - echo $KUBECONFIG | base64 -d | cat $2 > prod-kubeconfig.yml
+    - echo $KUBECONFIG | base64 -d | cat $2 > $PROD_KUBECONFIG
   artifacts:
     paths:
     - prod-kubeconfig.yml
   tags:
     - startfleet
 
-deploy-bdd:
-  stage: deploy
-  image: registry.gitlab.com/startfleet/gitlab-runner:master
-  dependencies: 
-    - setup_envrionement
-  when: manual
+# Tests
+test-namespaces:
+  <<: *test-template
   script:
-    - export KUBECONFIG=prod-kubeconfig.yml
-    - kubectl -n backend apply backend/bdd/Service.yml
-    - kubectl -n backend apply backend/bdd/Endpoint.yml
-  only:
-    - master
-    - tags
-  tags:
-    - startfleet
+    - export KUBECONFIG=$PROD_KUBECONFIG
+    - kubectl apply -f backend/backend-namespace.yml --dry-run=true
+    - kubectl apply -f frontend/frontend-namespace.yml --dry-run=true
+
+test-services:
+  <<: *test-template
+  script:
+    - export KUBECONFIG=$PROD_KUBECONFIG
+    - kubectl apply -f backend/bdd/Service.yml --dry-run=true
+    - kubectl apply -f backend/hasura/Service.yml --dry-run=true
+
+test-endpoints:
+  <<: *test-template
+  script:
+    - export KUBECONFIG=$PROD_KUBECONFIG
+    - kubectl apply -f backend/bdd/Endpoint.yml --dry-run=true
+
+test-deployments:
+  <<: *test-template
+  script:
+    - export KUBECONFIG=$PROD_KUBECONFIG
+    - kubectl apply -f backend/hasura/Deployment.yml --dry-run=true
+
+# Deploy
+deploy-bdd:
+  <<: *deploy-template
+  script:
+    - export KUBECONFIG=$PROD_KUBECONFIG
+    - kubectl -n backend apply -f backend/bdd/Endpoint.yml
+    - kubectl -n backend apply -f backend/bdd/Service.yml
+
+deploy-hasura:
+  <<: *deploy-template
+  script:
+    - export KUBECONFIG=$PROD_KUBECONFIG
+    - kubectl -n backend apply -f backend/hasura/Service.yml
+    - kubectl -n backend apply -f backend/hasura/Deployment.yml
