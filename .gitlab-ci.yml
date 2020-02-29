@@ -9,6 +9,8 @@ setup_envrionement:
   artifacts:
     paths:
     - prod-kubeconfig.yml
+  tags:
+    - startfleet
 
 deploy-bdd:
   stage: deploy
@@ -23,3 +25,5 @@ deploy-bdd:
   only:
     - master
     - tags
+  tags:
+    - startfleet
