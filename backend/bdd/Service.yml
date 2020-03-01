@@ -9,4 +9,4 @@ spec:
     - name: bdd-endpoint
       port: 5432
       protocol: TCP
-      targetPort: 5432
+      targetPort: 43401
