@@ -23,7 +23,7 @@ spec:
         name: hasura
         env:
         - name: HASURA_GRAPHQL_DATABASE_URL
-          value: postgres://$HUSER:$HPWD@bdd-service:5432/postgres
+          value: postgres://$HUSER:$HPWD@bdd-service:5432/apps
         - name: HASURA_GRAPHQL_ENABLE_CONSOLE
           value: "true"
         ports:
