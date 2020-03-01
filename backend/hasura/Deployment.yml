@@ -1,9 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: hasura
-    hasuraService: custom
   name: hasura
   namespace: backend
 spec:
@@ -11,11 +8,12 @@ spec:
   selector:
     matchLabels:
       app: hasura
+      component: pod
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: hasura
+        component: pod
     spec:
       containers:
       - image: hasura/graphql-engine:v1.0.0

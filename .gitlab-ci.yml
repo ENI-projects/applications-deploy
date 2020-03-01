@@ -82,7 +82,8 @@ deploy-hasura:
   <<: *deploy-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
-    - kubectl -n backend apply -f backend/hasura/Service.yml
     # building the deployment with substrings 
     - envsubst < backend/hasura/Deployment.yml > Hasura-Deployment.yml
     - kubectl -n backend apply -f Hasura-Deployment.yml
+    # building hasura service
+    - kubectl -n backend apply -f backend/hasura/Service.yml
