@@ -41,7 +41,6 @@ test-namespaces:
   <<: *test-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
-    - kubectl apply -f backend/bdd/bdd-namespace.yml --dry-run=true
     - kubectl apply -f backend/hasura-namespace/hasura-namespace.yml --dry-run=true
     - kubectl apply -f frontend/frontend-namespace.yml --dry-run=true
 
@@ -49,14 +48,7 @@ test-services:
   <<: *test-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
-    - kubectl apply -f backend/bdd/Service.yml --dry-run=true
     - kubectl apply -f backend/hasura-namespace/hasura/hasura-service.yml --dry-run=true
-
-test-endpoints:
-  <<: *test-template
-  script:
-    - export KUBECONFIG=$PROD_KUBECONFIG
-    - kubectl apply -f backend/bdd/Endpoint.yml --dry-run=true
 
 test-deployments:
   <<: *test-template
@@ -69,16 +61,8 @@ deploy-namespaces:
   <<: *deploy-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
-    - kubectl apply -f backend/bdd/bdd-namespace.yml
     - kubectl apply -f backend/hasura-namespace/hasura-namespace.yml
     - kubectl apply -f frontend/frontend-namespace.yml
-
-deploy-bdd:
-  <<: *deploy-template
-  script:
-    - export KUBECONFIG=$PROD_KUBECONFIG
-    - kubectl -n bdd apply -f backend/bdd/Endpoint.yml
-    - kubectl -n bdd apply -f backend/bdd/Service.yml
 
 deploy-hasura:
   <<: *deploy-template
