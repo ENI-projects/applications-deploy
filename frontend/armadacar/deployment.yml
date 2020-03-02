@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: armadacar-deployment
+  namespace: armadacar
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: armadacar
+      component: pod
+  template:
+    metadata:
+      labels:
+        app: armadacar
+        component: pod
+    spec:
+      containers:
+      - image: registry.gitlab.com/startfleet/armadacar-front:master
+        imagePullPolicy: IfNotPresent
+        name: armadacar
+        ports:
+        - containerPort: 7777
+          protocol: TCP
+        resources: {}
