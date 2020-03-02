@@ -77,8 +77,8 @@ deploy-bdd:
   <<: *deploy-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
-    - kubectl -n backend apply -f backend/bdd/Endpoint.yml
-    - kubectl -n backend apply -f backend/bdd/Service.yml
+    - kubectl -n bdd apply -f backend/bdd/Endpoint.yml
+    - kubectl -n bdd apply -f backend/bdd/Service.yml
 
 deploy-hasura:
   <<: *deploy-template
@@ -86,6 +86,6 @@ deploy-hasura:
     - export KUBECONFIG=$PROD_KUBECONFIG
     # building the deployment with substrings 
     - envsubst < backend/hasura-namespace/hasura/hasura-deployment.yml > Hasura-Deployment.yml
-    - kubectl -n backend apply -f Hasura-Deployment.yml
+    - kubectl -n hasura apply -f Hasura-Deployment.yml
     # building hasura service
-    - kubectl -n backend apply -f backend/hasura-namespace/hasura/hasura-service.yml
+    - kubectl -n hasura apply -f backend/hasura-namespace/hasura/hasura-service.yml
