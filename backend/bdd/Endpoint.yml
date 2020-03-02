@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Endpoints
 metadata:
   name: bdd-endpoint
-  namespace: backend
+  namespace: bdd
 subsets:
   - addresses:
       - ip: 51.159.25.148
