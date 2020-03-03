@@ -42,19 +42,33 @@ test-namespaces:
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
     - kubectl apply -f backend/hasura-namespace/hasura-namespace.yml --dry-run=true
-    - kubectl apply -f frontend/frontend-namespace.yml --dry-run=true
+    - kubectl apply -f frontend/armadacar/armadacar-namespace.yml --dry-run=true
 
 test-services:
   <<: *test-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
     - kubectl apply -f backend/hasura-namespace/hasura/hasura-service.yml --dry-run=true
+    - kubectl apply -f frontend/armadacar/service.yml --dry-run=true
 
 test-deployments:
   <<: *test-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
     - kubectl apply -f backend/hasura-namespace/hasura/hasura-deployment.yml --dry-run=true
+    - kubectl apply -f frontend/armadacar/deployment.yml --dry-run=true
+
+test-ingress:
+  <<: *test-template
+  script:
+    - export KUBECONFIG=$PROD_KUBECONFIG
+    - kubectl apply -f frontend/armadacar/ingress.yml --dry-run=true
+
+test-secrets:
+  <<: *test-template
+  script:
+    - export KUBECONFIG=$PROD_KUBECONFIG
+    - kubectl apply -f frontend/armadacar/secret.yml --dry-run=true
 
 # Deploy
 deploy-namespaces:
@@ -62,7 +76,7 @@ deploy-namespaces:
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
     - kubectl apply -f backend/hasura-namespace/hasura-namespace.yml
-    - kubectl apply -f frontend/frontend-namespace.yml
+    - kubectl apply -f frontend/armadacar/armadacar-namespace.yml
 
 deploy-hasura:
   <<: *deploy-template
@@ -73,3 +87,16 @@ deploy-hasura:
     - kubectl -n hasura apply -f Hasura-Deployment.yml
     # building hasura service
     - kubectl -n hasura apply -f backend/hasura-namespace/hasura/hasura-service.yml
+
+deploy-armadacar:
+  <<: *deploy-template
+  script:
+    - export KUBECONFIG=$PROD_KUBECONFIG
+    # Création du secret pour pull l'image armadacar du registry puis création du deployment
+    - envsubst < frontend/armadacar/secret.yml > armadacar-secret.yml
+    - kubectl -n armadacar apply -f armadacar-secret.yml
+    - kubectl -n armadacar apply -f frontend/armadacar/deployment.yml
+    # Création du service armadacar
+    - kubectl -n armadacar apply -f frontend/armadacar/service.yml
+    # Exposition de l'app via un ingress kubernetes
+    - kubectl -n armadacar apply -f frontend/armadacar/ingress.yml
