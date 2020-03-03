@@ -58,6 +58,12 @@ test-deployments:
     - kubectl apply -f backend/hasura-namespace/hasura/hasura-deployment.yml --dry-run=true
     - kubectl apply -f frontend/armadacar/deployment.yml --dry-run=true
 
+test-secrets:
+  <<: *test-template
+  script:
+    - export KUBECONFIG=$PROD_KUBECONFIG
+    - kubectl apply -f frontend/armadacar/secret.yml --dry-run=true
+
 # Deploy
 deploy-namespaces:
   <<: *deploy-template
@@ -80,5 +86,8 @@ deploy-armadacar:
   <<: *deploy-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
-    - kubectl -n armadacar apply -f frontend/armadacar/deployment.yml
+    # Création du secret pour pull l'image armadacar du registry puis création du deployment
+    - envsubst < frontend/armadacar/secret.yml > armadacar-secret.yml
+    - kubectl -n armadacar apply -f armadacar-secret.yml
+    # Création du service armadacar
     - kubectl -n armadacar apply -f frontend/armadacar/service.yml

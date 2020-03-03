@@ -23,3 +23,5 @@ spec:
         - containerPort: 7777
           protocol: TCP
         resources: {}
+      imagePullSecret:
+      - name: armadacar-registry-secret
