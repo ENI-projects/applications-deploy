@@ -9,4 +9,4 @@ spec:
     port: 80
     targetPort: 7777
   selector:
-    app: hasura
+    app: armadacar

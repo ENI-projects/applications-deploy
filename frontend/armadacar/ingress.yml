@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+    name: armadacar-ingress
+    namespace: armadacar
+spec:
+    rules:
+    - host: armadacar.startfleet.ovh
+      http:
+        paths:
+        - backend:
+            serviceName: armadacar-svc
+            servicePort: 80
