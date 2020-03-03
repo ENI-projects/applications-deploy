@@ -58,6 +58,12 @@ test-deployments:
     - kubectl apply -f backend/hasura-namespace/hasura/hasura-deployment.yml --dry-run=true
     - kubectl apply -f frontend/armadacar/deployment.yml --dry-run=true
 
+test-ingress:
+  <<: *test-template
+  script:
+    - export KUBECONFIG=$PROD_KUBECONFIG
+    - kubectl apply -f frontend/armadacar/ingress.yml --dry-run=true
+
 test-secrets:
   <<: *test-template
   script:
@@ -92,3 +98,5 @@ deploy-armadacar:
     - kubectl -n armadacar apply -f frontend/armadacar/deployment.yml
     # Création du service armadacar
     - kubectl -n armadacar apply -f frontend/armadacar/service.yml
+    # Exposition de l'app via un ingress kubernetes
+    - kubectl -n armadacar apply -f frontend/armadacar/ingress.yml
