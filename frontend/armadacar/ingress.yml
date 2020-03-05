@@ -4,10 +4,14 @@ metadata:
     name: armadacar-ingress
     namespace: armadacar
 spec:
-    rules:
-    - host: armadacar.startfleet.ovh
-      http:
-        paths:
-        - backend:
-            serviceName: armadacar-svc
-            servicePort: 80
+  tls:
+  - hosts:
+    - armadacar.startfleet.ovh
+    serviceName: armadacar-cert-tls
+  rules:
+  - host: armadacar.startfleet.ovh
+    http:
+      paths:
+      - backend:
+          serviceName: armadacar-svc
+          servicePort: 80
