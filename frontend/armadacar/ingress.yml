@@ -7,7 +7,7 @@ spec:
   tls:
   - hosts:
     - armadacar.startfleet.ovh
-    serviceName: armadacar-cert-tls
+    secretName: armadacar-cert-tls
   rules:
   - host: armadacar.startfleet.ovh
     http:
