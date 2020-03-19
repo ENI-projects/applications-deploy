@@ -53,6 +53,13 @@ services:
       - keycloak-postgres
     command: 
       - "-Dkeycloak.import=/opt/jboss/keycloak/imports/realm-export.json"
+  armadacar-front:
+    image: registry.gitlab.com/startfleet/armadacar-front:feature-accueil
+    restart: always
+    ports:
+      - "8082:7777"
+    depends_on:
+      - keycloak
 volumes:
   db_hasura_data:
   db_keycloak_data:
