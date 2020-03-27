@@ -16,7 +16,7 @@ spec:
         component: pod
     spec:
       containers:
-      - image: registry.gitlab.com/startfleet/armadacar-front:v0.1
+      - image: registry.gitlab.com/startfleet/armadacar-front:v0.2
         imagePullPolicy: IfNotPresent
         name: armadacar
         ports:
