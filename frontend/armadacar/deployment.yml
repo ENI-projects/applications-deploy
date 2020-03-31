@@ -16,12 +16,10 @@ spec:
         component: pod
     spec:
       containers:
-      - image: registry.gitlab.com/startfleet/armadacar-front:v0.2
-        imagePullPolicy: IfNotPresent
+      - image: registry.gitlab.com/startfleet/armadacar-front:release
+        imagePullPolicy: Always
         name: armadacar
         ports:
-        - containerPort: 7777
-          protocol: TCP
-        resources: {}
+        - containerPort: 80
       imagePullSecrets:
       - name: armadacar-registry-secret
