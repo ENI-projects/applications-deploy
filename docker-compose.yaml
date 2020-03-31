@@ -54,7 +54,7 @@ services:
     command: 
       - "-Dkeycloak.import=/opt/jboss/keycloak/imports/realm-export.json"
   armadacar-front:
-    image: registry.gitlab.com/startfleet/armadacar-front:feature-accueil
+    image: registry.gitlab.com/startfleet/armadacar-front:release
     restart: always
     ports:
       - "8082:7777"
