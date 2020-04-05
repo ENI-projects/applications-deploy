@@ -1,60 +1,71 @@
-# applications-deploy
+# Applications-Deploy
 
-Projet décrivant le déploiment de chaque applications sur le cluster Kubernetes de production.
+This project is used to deploy each application of our infrastructure on the production environnement in the Kubernetes cluster.
 
 ## Description
 
-Le projet permet de versionner les descripteurs d'objets kubernetes qui seront utilisés afin d'être appliqués au cluster Kubernetes de production.
-Pour chaque application que l'on va vouloir déployer on va trouver dans le projet son namespace, puis son dossier correspondant et dans ce dossier les descripteurs décrivant l'application sur Kubernetes.
-Ce projet s'inscrit dans la démarche "gitops" -> "si ce n'est pas sur git, ça n'existe pas" et permet d'éviter toute action manuelle sur le cluster.
+This project permits the versionning of each Kubernetes descriptor that will be applied to the Kubernetes cluster in the production environement.
+For each app we will find a folder which will contain all descriptors for the app : deployment, service and sometimes ingress. These descriptors are used to describe how the app is deployed in production and how it will behave.
+This project follow the "gitops" approach which says "if it is not in git, it doesn't exists" and prevent manual actions on the production cluster.
 
-## Fonctionnement du mode de déploiement
+## How to deploy ?
 
-Le mode de déploiment est effectué via la CI/CD de gitlab, une fois la branche taggée.
+To deploy an app, we use Gitlab CI/CD. 
+Tagging a branch is not necessary to deploy a new version of an app, because the projects are able to deploy from their own CI but is used to "fix" the "state" of the cluster so we can rollback anytime.
 
-## Effectuer les tests en local
+## Test the app locally
 
-### Prérequis :
-* Avoir docker d'installé et en cours d'exécution
-* Avoir docker-compose d'installé sur le poste
+### Preconditions :
 
-### Tester la version que l'on vient de développer
+* Docker is installed locally and running
+* docker-compose is installed
 
-Pour tester la version que lon vient de développer dans un environnement proche de la production il faut tout d'abord build l'image docker. La CI de gitlab s'occupe du build. L'image est stockée dans le container registry du projet, dans l'onglet Packages > Container Registry.
-Le nommage des images est le suivant :
-* Sur les branches de dev : nom de la branche
-* Sur la branche master : master
-* Pour la production : nom du tag
+### Test the version of the app we just developped
 
-Une fois l'image récupérée, copier/coller le chemin de l'image dans le fichier docker-compose.yml à la racine du projet, dans le service armadacar-front, champs image.
+To test the version of the  app we just developped in a local environnement close the production, we need to build the corresponding docker image. According to our work organization the docker image is built in the project's CI with the name of the branch we're developping on. The image is then pushed to the project's container registry in the Packages > Container Registry tab.
 
-### Lancer l'environnement
+The naming convention is the following :
 
-Le fichier `docker-compose.yml` permet de déployer un environnement en local composé de 4 services :
-* hasura-postgres : service postgres pour hasura
-* graphql-engine : service hasura mappé sur le port 8080 du pc
-* keycloak-postgres : service postgres pour keycloak
-* keycloak : service keycloak mappé sur le port 8081
-* armadacar-front : service pour le frontend de l'application armadacar mappé sur le port 8082
+* On the dev branch : name of the branch (e.g your-branch-name)
+* On the master branch : master
+* For production : name of the tag (e.g v1.0)
 
-Pour lancer l'environnement il faut de se positionner dans le répertoire du projet et taper la commande suivante dans un terminal :
+Once the image is built, we can copy/paste the path of the image in the `docker-compose.yml` in the root directory of this project, in the app's service, in the image field.
+
+### Launch the environment
+
+At the moment the `docker-compose.yml` launched a local environment with 5 services :
+
+* hasura-postgres : postgres service for hasura
+* graphql-engine : hasura service mapped on the port 8080. 
+* keycloak-postgres : postgres service for keycloak
+* keycloak : keycloak service mapped on port 8081 
+* armadacar-front : application service mapped on port 8082
+
+To launch the environment we need to position ourselves in the root folder of the project in a terminal and type the following command :
 ```
 docker-compose up
 ```
-Ce fonctionnement permet de vérifier les logs applicatifs directement dans le terminal.
-Si ce fonctionnement n'est pas désiré, l'option -d ou --detach permet de lancer les conteneurs en mode "détaché" ils ne seront pas liés au terminal, et les logs applicatifs ne seront pas affichés :
+This command will launch each service described in the `docker-compose.yml` and display their logs directly into the terminal.
+If you do not want to check the applications logs, you can use the option -d or --detach to launch the containers in the detached mode :
 ```
 docker-compose up -d
 ```
-Pour éteindre l'environnement :
+To turn off the environement :
 ```
-docker-compose stop <-- stop les conteneurs sans les détruire
-docker-compose down <-- stop les conteneurs puis les détruits (permet d'éviter les soucis de cache)
+docker-compose stop <-- stop the containers without removing them
+docker-compose down <-- stop the container and remove them (avoid cache and naming conflicts)
 ```
 
-Pour plus d'information sur docker-compose, voir ce [lien](https://docs.docker.com/compose/)
+For more informations, check docker-compose's [documentation](https://docs.docker.com/compose/)
 
-### Note sur les tests en local
+### Note on the local tests
 
-Le fichier `docker-compose.yml` permet de déployer une version minifiée en local afin de réaliser des tests basiques, permettant de faire abstraction des namespaces, services et pods Kubernetes. Cependant il faut bien comprendre que cette méthode ne permet que de tester les containers dockers et ne permet pas de réaliser des tests réellement proches de la production.
-Afin de réaliser des tests sur un environnement proche de celui de production, il est préférable de créer un cluster kubernetes minifié en local avec k3d ou k3s et d'appliquer les descripteurs présents dans le projet.
+As said, the `docker-compose.yml`launches multiple containers, permitting to get close of the production environement and achieve tests that are dependants with keycloak for example. While it's usefull, it doesn't reproduce Kubernetes namespaces, ingresses, services or pods.
+
+To test on a closest environment to production, it is prefered to deploy a local Kubernetes cluster (e.g with k3s which is used in production or minikube) and apply this project's descriptors to the cluster using kubectl.
+
+#### Additionnal ressources
+
+k3s' [documentation](https://rancher.com/docs/k3s/latest/en/)
+kubectl's [documentation](https://kubernetes.io/fr/docs/reference/kubectl/overview/)

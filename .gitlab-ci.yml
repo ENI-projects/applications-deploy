@@ -19,6 +19,7 @@ variables:
   image: $RUNNER_IMAGE
   when: manual
   only:
+    - master
     - tags
   tags:
     - startfleet
@@ -61,10 +62,10 @@ deploy-hasura:
   <<: *deploy-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
-    # building the deployment with substrings 
+    # deploying the deployment with substrings 
     - envsubst < backend/hasura-namespace/hasura/hasura-deployment.yml > Hasura-Deployment.yml
     - kubectl -n hasura apply -f Hasura-Deployment.yml
-    # building hasura service
+    # deploying hasura service
     - kubectl -n hasura apply -f backend/hasura-namespace/hasura/hasura-service.yml
 
 deploy-armadacar:
@@ -72,7 +73,7 @@ deploy-armadacar:
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
     - kubectl -n armadacar apply -f frontend/armadacar/deployment.yml
-    # Création du service armadacar
+    # Creating armadacar service
     - kubectl -n armadacar apply -f frontend/armadacar/service.yml
-    # Exposition de l'app via un ingress kubernetes
+    # Exposing the app via the ingress
     - kubectl -n armadacar apply -f frontend/armadacar/ingress.yml
