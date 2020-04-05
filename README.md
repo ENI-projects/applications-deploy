@@ -68,4 +68,5 @@ To test on a closest environment to production, it is prefered to deploy a local
 #### Additionnal ressources
 
 k3s' [documentation](https://rancher.com/docs/k3s/latest/en/)
+
 kubectl's [documentation](https://kubernetes.io/fr/docs/reference/kubectl/overview/)
