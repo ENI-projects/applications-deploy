@@ -5,7 +5,7 @@ stages:
 
 variables:
   PROD_KUBECONFIG: prod-kubeconfig.yml
-  RUNNER_IMAGE: registry.gitlab.com/startfleet/gitlab-runner:master
+  RUNNER_IMAGE: registry.gitlab.com/startfleet/gitlab-runner:v1.1
 
 ## Templates ##
 .test-template: &test-template
@@ -26,13 +26,13 @@ variables:
 
 ## Stages ##
 # Build
-build-kubeconfig:
+kubeconfig:
   stage: build
   script:
-    - echo $KUBECONFIG | base64 -d | cat $2 > $PROD_KUBECONFIG
+    - echo $KUBECONFIG | base64 -d | cat > $PROD_KUBECONFIG
   artifacts:
     paths:
-    - prod-kubeconfig.yml
+    - $PROD_KUBECONFIG
   tags:
     - startfleet
 
