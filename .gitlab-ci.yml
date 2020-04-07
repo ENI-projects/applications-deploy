@@ -84,4 +84,4 @@ deploy-migrations:
   <<: *deploy-template
   script:
     - cd hasura-migration
-    - hasura migrate apply --endpoint https://hasura.startfleet.ovh --admin-secret $HASURA_ADMIN_SECRET
+    - hasura migrate apply --endpoint https://hasura.startfleet.ovh --admin-secret $HASURA_ADMIN_SECRET --project hasura-migration
