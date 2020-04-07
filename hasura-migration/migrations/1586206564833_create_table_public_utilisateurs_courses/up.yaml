@@ -1,0 +1,14 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE TABLE "public"."utilisateurs_courses"("id" serial NOT NULL, "id_course"
+      integer NOT NULL, "id_utilisateur" integer NOT NULL, "createur" text NOT NULL,
+      PRIMARY KEY ("id") , FOREIGN KEY ("id_course") REFERENCES "public"."courses"("id")
+      ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("id_utilisateur") REFERENCES
+      "public"."utilisateurs"("id") ON UPDATE restrict ON DELETE restrict, UNIQUE
+      ("id"));
+  type: run_sql
+- args:
+    name: utilisateurs_courses
+    schema: public
+  type: add_existing_table_or_view

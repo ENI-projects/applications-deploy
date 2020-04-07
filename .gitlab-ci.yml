@@ -41,39 +41,47 @@ test-services:
   <<: *test-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
-    - kubectl apply -f backend/hasura-namespace/hasura/hasura-service.yml --dry-run=true
-    - kubectl apply -f frontend/armadacar/service.yml --dry-run=true
+    - kubectl apply -f Kubernetes/backend/hasura/hasura-app/hasura-service.yml --dry-run=true
+    - kubectl apply -f Kubernetes/frontend/armadacar/service.yml --dry-run=true
 
 test-deployments:
   <<: *test-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
-    - kubectl apply -f backend/hasura-namespace/hasura/hasura-deployment.yml --dry-run=true
-    - kubectl apply -f frontend/armadacar/deployment.yml --dry-run=true
+    - kubectl apply -f Kubernetes/backend/hasura/hasura-app/hasura-deployment.yml --dry-run=true
+    - kubectl apply -f Kubernetes/frontend/armadacar/deployment.yml --dry-run=true
 
 test-ingress:
   <<: *test-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
-    - kubectl apply -f frontend/armadacar/ingress.yml --dry-run=true
+    - kubectl apply -f Kubernetes/frontend/armadacar/ingress.yml --dry-run=true
 
 # Deploy
 deploy-hasura:
   <<: *deploy-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
-    # deploying the deployment with substrings 
-    - envsubst < backend/hasura-namespace/hasura/hasura-deployment.yml > Hasura-Deployment.yml
+    # building the deployment with substrings 
+    - envsubst < Kubernetes/backend/hasura/hasura-app/hasura-deployment.yml > Hasura-Deployment.yml
     - kubectl -n hasura apply -f Hasura-Deployment.yml
-    # deploying hasura service
-    - kubectl -n hasura apply -f backend/hasura-namespace/hasura/hasura-service.yml
+    # building hasura service
+    - kubectl -n hasura apply -f Kubernetes/backend/hasura/hasura-app/hasura-service.yml
+    # building hasura ingress
+    - kubectl -n hasura apply -f Kubernetes/backend/hasura/hasura-app/hasura-ingress.yml
 
 deploy-armadacar:
   <<: *deploy-template
   script:
     - export KUBECONFIG=$PROD_KUBECONFIG
-    - kubectl -n armadacar apply -f frontend/armadacar/deployment.yml
-    # Creating armadacar service
-    - kubectl -n armadacar apply -f frontend/armadacar/service.yml
-    # Exposing the app via the ingress
-    - kubectl -n armadacar apply -f frontend/armadacar/ingress.yml
+    - kubectl -n armadacar apply -f Kubernetes/frontend/armadacar/deployment.yml
+    # Création du service armadacar
+    - kubectl -n armadacar apply -f Kubernetes/frontend/armadacar/service.yml
+    # Exposition de l'app via un ingress kubernetes
+    - kubectl -n armadacar apply -f Kubernetes/frontend/armadacar/ingress.yml
+
+deploy-migrations:
+  <<: *deploy-template
+  script:
+    - cd hasura-migration
+    - hasura migrate apply --endpoint https://hasura.startfleet.ovh --admin-secret $HASURA_ADMIN_SECRET

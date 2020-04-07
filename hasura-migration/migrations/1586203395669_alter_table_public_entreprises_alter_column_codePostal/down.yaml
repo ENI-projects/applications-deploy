@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."entreprises" rename column "code_postal" to "codePostal";
+  type: run_sql

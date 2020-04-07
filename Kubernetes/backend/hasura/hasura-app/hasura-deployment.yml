@@ -4,7 +4,7 @@ metadata:
   name: hasura-deployment
   namespace: hasura
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: hasura
@@ -16,7 +16,7 @@ spec:
         component: pod
     spec:
       containers:
-      - image: hasura/graphql-engine:v1.0.0
+      - image: hasura/graphql-engine:v1.1.1
         imagePullPolicy: IfNotPresent
         name: hasura
         env:
@@ -24,7 +24,7 @@ spec:
           value: postgres://$HUSER:$HPWD@bdd.startfleet.ovh:43401/apps
         - name: HASURA_GRAPHQL_ENABLE_CONSOLE
           value: "false"
+        - name: HASURA_GRAPHQL_ADMIN_SECRET
+          value: $HASURA_ADMIN_SECRET
         ports:
         - containerPort: 8080
-          protocol: TCP
-        resources: {}

@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+    name: hasura-ingress
+    namespace: hasura
+spec:
+  tls:
+  - hosts:
+    - hasura.startfleet.ovh
+    secretName: hasura-cert-tls
+  rules:
+  - host: hasura.startfleet.ovh
+    http:
+      paths:
+      - backend:
+          serviceName: hasura-svc
+          servicePort: 80

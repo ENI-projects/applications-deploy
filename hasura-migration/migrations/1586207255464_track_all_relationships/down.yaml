@@ -1,0 +1,84 @@
+- args:
+    relationship: voiture
+    table:
+      name: courses
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: utilisateurs_courses
+    table:
+      name: courses
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: lieux_de_stockages
+    table:
+      name: entreprises
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: utilisateurs
+    table:
+      name: entreprises
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: voitures
+    table:
+      name: entreprises
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: entreprise
+    table:
+      name: lieux_de_stockage
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: voitures
+    table:
+      name: lieux_de_stockage
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: entreprise
+    table:
+      name: utilisateurs
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: utilisateurs_courses
+    table:
+      name: utilisateurs
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: utilisateur
+    table:
+      name: utilisateurs_courses
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: course
+    table:
+      name: utilisateurs_courses
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: entreprise
+    table:
+      name: voitures
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: lieux_de_stockage
+    table:
+      name: voitures
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: courses
+    table:
+      name: voitures
+      schema: public
+  type: drop_relationship
