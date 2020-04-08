@@ -1,0 +1,6 @@
+- args:
+    relationship: lieux_de_stockages
+    table:
+      name: entreprises
+      schema: armadacar
+  type: drop_relationship

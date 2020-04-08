@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."voitures" add foreign key ("id_lieux_de_stockage")
+      references "public"."lieux_de_stockage"("id") on update restrict on delete restrict;
+  type: run_sql

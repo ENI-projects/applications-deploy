@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."lieux_de_stockage" add foreign key ("id_entreprise")
+      references "public"."entreprises"("id") on update cascade on delete cascade;
+  type: run_sql

@@ -1,0 +1,8 @@
+- args:
+    name: voiture
+    table:
+      name: courses
+      schema: armadacar
+    using:
+      foreign_key_constraint_on: id_voiture
+  type: create_object_relationship

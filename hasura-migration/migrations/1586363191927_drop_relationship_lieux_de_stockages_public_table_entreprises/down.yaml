@@ -1,0 +1,12 @@
+- args:
+    name: lieux_de_stockages
+    table:
+      name: entreprises
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: id_entreprise
+        table:
+          name: lieux_de_stockage
+          schema: public
+  type: create_array_relationship

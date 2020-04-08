@@ -1,0 +1,8 @@
+- args:
+    name: entreprise
+    table:
+      name: lieux_de_stockage
+      schema: armadacar
+    using:
+      foreign_key_constraint_on: id_entreprise
+  type: create_object_relationship

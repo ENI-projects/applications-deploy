@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: drop schema "armadacar" cascade;
+  type: run_sql

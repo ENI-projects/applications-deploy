@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: DROP TABLE "armadacar"."lieux_de_stockage";
+  type: run_sql

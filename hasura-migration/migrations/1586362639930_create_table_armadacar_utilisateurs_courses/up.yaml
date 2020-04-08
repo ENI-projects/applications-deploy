@@ -1,0 +1,14 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE TABLE "armadacar"."utilisateurs_courses"("id" integer NOT NULL, "id_utilisateur"
+      text NOT NULL, "id_course" integer NOT NULL, "createur" boolean NOT NULL, PRIMARY
+      KEY ("id") , FOREIGN KEY ("id_course") REFERENCES "armadacar"."courses"("id")
+      ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("id_utilisateur") REFERENCES
+      "armadacar"."utilisateurs"("id") ON UPDATE restrict ON DELETE restrict, UNIQUE
+      ("id"));
+  type: run_sql
+- args:
+    name: utilisateurs_courses
+    schema: armadacar
+  type: add_existing_table_or_view

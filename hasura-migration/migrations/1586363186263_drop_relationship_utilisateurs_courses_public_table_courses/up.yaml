@@ -1,0 +1,6 @@
+- args:
+    relationship: utilisateurs_courses
+    table:
+      name: courses
+      schema: public
+  type: drop_relationship

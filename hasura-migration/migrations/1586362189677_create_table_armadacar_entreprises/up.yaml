@@ -1,0 +1,12 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE TABLE "armadacar"."entreprises"("id" serial NOT NULL, "departement"
+      text NOT NULL, "ville" text NOT NULL, "code_postal" text NOT NULL, "adresse"
+      text NOT NULL, "responsable" text NOT NULL, "created_at" timestamptz NOT NULL
+      DEFAULT now(), "nom" text NOT NULL, PRIMARY KEY ("id") , UNIQUE ("id"));
+  type: run_sql
+- args:
+    name: entreprises
+    schema: armadacar
+  type: add_existing_table_or_view

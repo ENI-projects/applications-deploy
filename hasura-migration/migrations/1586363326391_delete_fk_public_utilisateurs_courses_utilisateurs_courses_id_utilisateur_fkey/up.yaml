@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."utilisateurs_courses" drop constraint "utilisateurs_courses_id_utilisateur_fkey";
+  type: run_sql

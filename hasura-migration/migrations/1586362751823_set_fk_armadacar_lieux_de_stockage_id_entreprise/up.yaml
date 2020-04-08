@@ -1,0 +1,10 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      alter table "armadacar"."lieux_de_stockage"
+                 add constraint "lieux_de_stockage_id_entreprise_fkey"
+                 foreign key ("id_entreprise")
+                 references "armadacar"."entreprises"
+                 ("id") on update restrict on delete restrict;
+  type: run_sql
