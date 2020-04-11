@@ -15,6 +15,16 @@ spec:
         app: armadacar
         component: pod
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - keycloak
+            topologyKey: "kubernetes.io/hostname"
       containers:
       - image: registry.gitlab.com/startfleet/armadacar-front:release
         imagePullPolicy: Always
