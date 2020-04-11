@@ -16,6 +16,7 @@ spec:
         component: pod
     spec:
       affinity:
+        # tell hasura pods to never deploy on the same node
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
@@ -23,7 +24,7 @@ spec:
               - key: app
                 operator: In
                 values:
-                - keycloak
+                - hasura
             topologyKey: "kubernetes.io/hostname"
       containers:
       - image: hasura/graphql-engine:v1.1.1
