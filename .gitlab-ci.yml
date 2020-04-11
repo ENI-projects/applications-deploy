@@ -4,10 +4,13 @@ stages:
   - deploy
 
 variables:
-  PROD_KUBECONFIG: prod-kubeconfig.yml
   RUNNER_IMAGE: registry.gitlab.com/startfleet/gitlab-runner:v1.1
 
-## Templates ##
+before_script:
+  - mkdir ~/.kube/
+  - echo $KUBECONFIG_PROD | base64 -d > ~/.kube/config
+
+  ## Templates ##
 .test-template: &test-template
   stage: test
   image: $RUNNER_IMAGE
@@ -26,42 +29,27 @@ variables:
 ## End Templates ##
 
 ## Stages ##
-# Build
-kubeconfig:
-  stage: build
-  script:
-    - echo $KUBECONFIG | base64 -d | cat > $PROD_KUBECONFIG
-  artifacts:
-    paths:
-    - $PROD_KUBECONFIG
-  tags:
-    - startfleet
-
 test-services:
   <<: *test-template
   script:
-    - export KUBECONFIG=$PROD_KUBECONFIG
     - kubectl apply -f Kubernetes/backend/hasura/hasura-app/hasura-service.yml --dry-run=true
     - kubectl apply -f Kubernetes/frontend/armadacar/service.yml --dry-run=true
 
 test-deployments:
   <<: *test-template
   script:
-    - export KUBECONFIG=$PROD_KUBECONFIG
     - kubectl apply -f Kubernetes/backend/hasura/hasura-app/hasura-deployment.yml --dry-run=true
     - kubectl apply -f Kubernetes/frontend/armadacar/deployment.yml --dry-run=true
 
 test-ingress:
   <<: *test-template
   script:
-    - export KUBECONFIG=$PROD_KUBECONFIG
     - kubectl apply -f Kubernetes/frontend/armadacar/ingress.yml --dry-run=true
 
 # Deploy
 deploy-hasura:
   <<: *deploy-template
   script:
-    - export KUBECONFIG=$PROD_KUBECONFIG
     # building the deployment with substrings 
     - envsubst < Kubernetes/backend/hasura/hasura-app/hasura-deployment.yml > Hasura-Deployment.yml
     - kubectl -n hasura apply -f Hasura-Deployment.yml
@@ -73,7 +61,6 @@ deploy-hasura:
 deploy-armadacar:
   <<: *deploy-template
   script:
-    - export KUBECONFIG=$PROD_KUBECONFIG
     - kubectl -n armadacar apply -f Kubernetes/frontend/armadacar/deployment.yml
     # Création du service armadacar
     - kubectl -n armadacar apply -f Kubernetes/frontend/armadacar/service.yml
