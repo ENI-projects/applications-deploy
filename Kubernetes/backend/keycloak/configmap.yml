@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: keycloak-configmap
+    namespace: keycloak
+data:
+    DB_VENDOR: POSTGRES
+    DB_ADDR: bdd.startfleet.ovh
+    DB_PORT: "43401"
+    DB_DATABASE: apps
+    DB_SCHEMA: keycloak
+    PROXY_ADDRESS_FORWARDING: "true"
+    JGROUPS_DISCOVERY_PROTOCOL: dns.DNS_PING
+    JGROUPS_DISCOVERY_PROPERTIES: dns_query=keycloak-svc-headless.keycloak.svc.cluster.local
+    KUBERNETES_CONNECT_TIMEOUT: "10000"
+    KUBERNETES_NAMESPACE: keycloak

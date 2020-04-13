@@ -32,9 +32,9 @@ services:
       POSTGRES_PASSWORD: keycloak_password
       POSTGRES_DB: keycloak_db
   keycloak:
-    image: jboss/keycloak:8.0.1
+    image: jboss/keycloak:9.0.2
     volumes:
-    - ./keycloak-importfile:/opt/jboss/keycloak/imports
+    - ./keycloak-conf:/opt/jboss/keycloak/imports
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: keycloak-postgres

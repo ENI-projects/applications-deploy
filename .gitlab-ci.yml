@@ -29,22 +29,19 @@ before_script:
 ## End Templates ##
 
 ## Stages ##
-test-services:
+# Test
+test-keycloak:
   <<: *test-template
   script:
-    - kubectl apply -f Kubernetes/backend/hasura/hasura-app/hasura-service.yml --dry-run=true
-    - kubectl apply -f Kubernetes/frontend/armadacar/service.yml --dry-run=true
-
-test-deployments:
+    - kubectl apply -f Kubernetes/backend/keycloak --dry-run=true
+test-hasura:
   <<: *test-template
   script:
-    - kubectl apply -f Kubernetes/backend/hasura/hasura-app/hasura-deployment.yml --dry-run=true
-    - kubectl apply -f Kubernetes/frontend/armadacar/deployment.yml --dry-run=true
-
-test-ingress:
+    - kubectl apply -f Kubernetes/backend/hasura/hasura-app --dry-run=true
+test-armadacar:
   <<: *test-template
   script:
-    - kubectl apply -f Kubernetes/frontend/armadacar/ingress.yml --dry-run=true
+    - kubectl apply -f Kubernetes/frontend/armadacar --dry-run=true
 
 # Deploy
 deploy-hasura:
@@ -66,6 +63,12 @@ deploy-armadacar:
     - kubectl -n armadacar apply -f Kubernetes/frontend/armadacar/service.yml
     # Exposition de l'app via un ingress kubernetes
     - kubectl -n armadacar apply -f Kubernetes/frontend/armadacar/ingress.yml
+
+deploy-keycloak:
+  <<: *deploy-template
+  script:
+    # build and deploy keycloak app
+    - kubectl apply -f Kubernetes/backend/keycloak
 
 deploy-migrations:
   <<: *deploy-template

@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+    name: keycloak-ingress
+    namespace: keycloak
+spec:
+  tls:
+  - hosts:
+    - keycloak.startfleet.ovh
+    secretName: keycloak-cert-tls
+  rules:
+  - host: keycloak.startfleet.ovh
+    http:
+      paths:
+      - backend:
+          serviceName: keycloak-svc
+          servicePort: 80
