@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: hasura-connector-configmap
+    namespace: hasura
+data:
+    KEYCLOAK_CLIENT_ID: hasura-keycloak-connector
+    KEYCLOAK_SERVER_URL: "https://keycloak.startfleet.ovh/auth"
+    KEYCLOAK_REALM: production
+    USER_ID_FIELD: "sub"
+    KEYCLOAK_DEBUG: "true"
+    ANONYMOUS_ROLE: "anonymous"

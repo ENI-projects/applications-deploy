@@ -27,15 +27,25 @@ spec:
                 - hasura
             topologyKey: "kubernetes.io/hostname"
       containers:
+      # hasura app image
       - image: hasura/graphql-engine:v1.1.1
         imagePullPolicy: IfNotPresent
-        name: hasura
-        env:
-        - name: HASURA_GRAPHQL_DATABASE_URL
-          value: postgres://$HUSER:$HPWD@bdd.startfleet.ovh:43401/apps
-        - name: HASURA_GRAPHQL_ENABLE_CONSOLE
-          value: "false"
-        - name: HASURA_GRAPHQL_ADMIN_SECRET
-          value: $HASURA_ADMIN_SECRET
+        name: hasura-app
+        envFrom:
+        - secretRef:
+            name: hasura-app-secret
+        - configMapRef:
+            name: hasura-app-configmap
         ports:
-        - containerPort: 8080
+          - containerPort: 8080
+      # connector image
+      - image: httpsomkar/keycloak-hasura-connector:latest
+        imagePullPolicy: IfNotPresent
+        name: hasura-connector
+        envFrom:
+        - secretRef:
+            name: hasura-connector-secret
+        - configMapRef:
+            name: hasura-connector-configmap
+        ports:
+          - containerPort: 3000

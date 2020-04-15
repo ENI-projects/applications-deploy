@@ -37,7 +37,7 @@ test-keycloak:
 test-hasura:
   <<: *test-template
   script:
-    - kubectl apply -f Kubernetes/backend/hasura/hasura-app --dry-run=true
+    - kubectl apply -f Kubernetes/backend/hasura --dry-run=true
 test-armadacar:
   <<: *test-template
   script:
@@ -47,13 +47,7 @@ test-armadacar:
 deploy-hasura:
   <<: *deploy-template
   script:
-    # building the deployment with substrings 
-    - envsubst < Kubernetes/backend/hasura/hasura-app/hasura-deployment.yml > Hasura-Deployment.yml
-    - kubectl -n hasura apply -f Hasura-Deployment.yml
-    # building hasura service
-    - kubectl -n hasura apply -f Kubernetes/backend/hasura/hasura-app/hasura-service.yml
-    # building hasura ingress
-    - kubectl -n hasura apply -f Kubernetes/backend/hasura/hasura-app/hasura-ingress.yml
+    - kubectl apply -f Kubernetes/backend/hasura
 
 deploy-armadacar:
   <<: *deploy-template

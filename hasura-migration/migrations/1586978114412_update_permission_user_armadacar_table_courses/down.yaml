@@ -1,0 +1,6 @@
+- args:
+    role: user
+    table:
+      name: courses
+      schema: armadacar
+  type: drop_select_permission
