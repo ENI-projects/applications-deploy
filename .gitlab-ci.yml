@@ -2,6 +2,7 @@ stages:
   - build
   - test
   - deploy
+  - migrations
 
 variables:
   RUNNER_IMAGE: registry.gitlab.com/startfleet/gitlab-runner:v1.1
@@ -52,11 +53,7 @@ deploy-hasura:
 deploy-armadacar:
   <<: *deploy-template
   script:
-    - kubectl -n armadacar apply -f Kubernetes/frontend/armadacar/deployment.yml
-    # Création du service armadacar
-    - kubectl -n armadacar apply -f Kubernetes/frontend/armadacar/service.yml
-    # Exposition de l'app via un ingress kubernetes
-    - kubectl -n armadacar apply -f Kubernetes/frontend/armadacar/ingress.yml
+    - kubectl apply -f Kubernetes/frontend/armadacar
 
 deploy-keycloak:
   <<: *deploy-template
@@ -64,7 +61,14 @@ deploy-keycloak:
     # build and deploy keycloak app
     - kubectl apply -f Kubernetes/backend/keycloak
 
-deploy-migrations:
-  <<: *deploy-template
+hasura-migrations:
+  stage: migrations
+  image: $RUNNER_IMAGE
+  when: manual
+  only:
+    - master
+    - tags
+  tags:
+    - startfleet
   script:
     - hasura migrate apply --endpoint https://hasura.startfleet.ovh --admin-secret $HASURA_ADMIN_SECRET --project hasura-migration
