@@ -25,7 +25,7 @@ spec:
                 - keycloak
             topologyKey: "kubernetes.io/hostname"
       containers:
-      - image: jboss/keycloak:9.0.2
+      - image: registry.gitlab.com/startfleet/startfleet-keycloak:v1.0
         imagePullPolicy: IfNotPresent
         name: keycloak
         envFrom:
