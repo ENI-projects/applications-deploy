@@ -1,8 +1,0 @@
-- args:
-    name: lieux_de_stockage
-    table:
-      name: voitures
-      schema: public
-    using:
-      foreign_key_constraint_on: id_lieux_de_stockage
-  type: create_object_relationship

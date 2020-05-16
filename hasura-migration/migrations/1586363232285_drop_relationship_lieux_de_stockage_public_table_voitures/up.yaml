@@ -1,6 +1,0 @@
-- args:
-    relationship: lieux_de_stockage
-    table:
-      name: voitures
-      schema: public
-  type: drop_relationship

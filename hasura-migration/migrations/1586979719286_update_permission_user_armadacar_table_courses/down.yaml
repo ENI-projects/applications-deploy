@@ -1,6 +1,0 @@
-- args:
-    role: user
-    table:
-      name: courses
-      schema: armadacar
-  type: drop_delete_permission

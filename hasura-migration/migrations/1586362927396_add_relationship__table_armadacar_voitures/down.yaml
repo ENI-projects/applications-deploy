@@ -1,6 +1,0 @@
-- args:
-    relationship: entreprise
-    table:
-      name: voitures
-      schema: armadacar
-  type: drop_relationship

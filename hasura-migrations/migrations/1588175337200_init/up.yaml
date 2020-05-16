@@ -1,0 +1,251 @@
+- args:
+    tables:
+    - array_relationships:
+      - name: utilisateurs_courses
+        using:
+          foreign_key_constraint_on:
+            column: id_course
+            table:
+              name: utilisateurs_courses
+              schema: armadacar
+      delete_permissions:
+      - permission:
+          filter:
+            utilisateurs_courses:
+              _and:
+              - createur:
+                  _eq: true
+              - id_utilisateur:
+                  _eq: X-Hasura-User-Id
+        role: user
+      insert_permissions:
+      - permission:
+          check:
+            utilisateurs_courses:
+              _and:
+              - createur:
+                  _eq: true
+              - id_utilisateur:
+                  _eq: X-Hasura-User-Id
+          columns:
+          - date_debut
+          - date_fin
+          - lieu_arrivee
+          - lieu_depart
+          - remarque
+        role: user
+      object_relationships:
+      - name: voiture
+        using:
+          foreign_key_constraint_on: id_voiture
+      select_permissions:
+      - permission:
+          columns:
+          - created_at
+          - date_debut
+          - date_fin
+          - id_voiture
+          - lieu_arrivee
+          - lieu_depart
+          - remarque
+          filter:
+            utilisateurs_courses:
+              _and:
+              - id_utilisateur:
+                  _eq: X-Hasura-User-Id
+        role: user
+      table:
+        name: courses
+        schema: armadacar
+      update_permissions:
+      - permission:
+          columns:
+          - date_debut
+          - date_fin
+          - lieu_arrivee
+          - lieu_depart
+          - remarque
+          filter:
+            utilisateurs_courses:
+              _and:
+              - createur:
+                  _eq: true
+              - id_utilisateur:
+                  _eq: X-Hasura-User-Id
+        role: user
+    - array_relationships:
+      - name: lieux_de_stockages
+        using:
+          foreign_key_constraint_on:
+            column: id_entreprise
+            table:
+              name: lieux_de_stockage
+              schema: armadacar
+      - name: utilisateurs
+        using:
+          foreign_key_constraint_on:
+            column: id_entreprise
+            table:
+              name: utilisateurs
+              schema: armadacar
+      - name: voitures
+        using:
+          foreign_key_constraint_on:
+            column: id_entreprise
+            table:
+              name: voitures
+              schema: armadacar
+      select_permissions:
+      - permission:
+          columns:
+          - adresse
+          - code_postal
+          - departement
+          - nom
+          - responsable
+          - ville
+          filter:
+            utilisateurs:
+              id:
+                _eq: X-Hasura-User-Id
+        role: user
+      table:
+        name: entreprises
+        schema: armadacar
+    - array_relationships:
+      - name: voitures
+        using:
+          foreign_key_constraint_on:
+            column: id_lieux_de_stockage
+            table:
+              name: voitures
+              schema: armadacar
+      object_relationships:
+      - name: entreprise
+        using:
+          foreign_key_constraint_on: id_entreprise
+      select_permissions:
+      - permission:
+          columns:
+          - adresse
+          - code_postal
+          - departement
+          - libelle
+          - ville
+          filter:
+            voitures:
+              courses:
+                utilisateurs_courses:
+                  id_utilisateur:
+                    _eq: X-Hasura-User-Id
+        role: user
+      table:
+        name: lieux_de_stockage
+        schema: armadacar
+    - array_relationships:
+      - name: utilisateurs_courses
+        using:
+          foreign_key_constraint_on:
+            column: id_utilisateur
+            table:
+              name: utilisateurs_courses
+              schema: armadacar
+      object_relationships:
+      - name: entreprise
+        using:
+          foreign_key_constraint_on: id_entreprise
+      select_permissions:
+      - permission:
+          columns:
+          - created_at
+          - id
+          - id_entreprise
+          filter:
+            id:
+              _eq: X-Hasura-User-Id
+        role: user
+      table:
+        name: utilisateurs
+        schema: armadacar
+    - delete_permissions:
+      - permission:
+          filter:
+            id_utilisateur:
+              _eq: X-Hasura-User-Id
+        role: user
+      insert_permissions:
+      - permission:
+          check:
+            _and:
+            - id_utilisateur:
+                _eq: X-Hasura-User-Id
+            - createur:
+                _eq: true
+          columns:
+          - createur
+          - id_course
+          - id_utilisateur
+        role: user
+      object_relationships:
+      - name: course
+        using:
+          foreign_key_constraint_on: id_course
+      - name: utilisateur
+        using:
+          foreign_key_constraint_on: id_utilisateur
+      select_permissions:
+      - permission:
+          columns:
+          - createur
+          - id_course
+          - id_utilisateur
+          filter:
+            id_utilisateur:
+              _eq: X-Hasura-User-Id
+        role: user
+      table:
+        name: utilisateurs_courses
+        schema: armadacar
+      update_permissions:
+      - permission:
+          columns:
+          - createur
+          - id
+          filter:
+            id_utilisateur:
+              _eq: X-Hasura-User-Id
+        role: user
+    - array_relationships:
+      - name: courses
+        using:
+          foreign_key_constraint_on:
+            column: id_voiture
+            table:
+              name: courses
+              schema: armadacar
+      object_relationships:
+      - name: entreprise
+        using:
+          foreign_key_constraint_on: id_entreprise
+      - name: lieux_de_stockage
+        using:
+          foreign_key_constraint_on: id_lieux_de_stockage
+      select_permissions:
+      - permission:
+          columns:
+          - energie
+          - immatriculation
+          - marque
+          - modele
+          - nombre_de_places
+          filter:
+            courses:
+              utilisateurs_courses:
+                id_utilisateur:
+                  _eq: X-Hasura-User-Id
+        role: user
+      table:
+        name: voitures
+        schema: armadacar
+    version: 2
+  type: replace_metadata

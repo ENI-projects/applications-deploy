@@ -1,6 +1,0 @@
-- args:
-    relationship: lieux_de_stockages
-    table:
-      name: entreprises
-      schema: public
-  type: drop_relationship

@@ -1,6 +1,0 @@
-- args:
-    role: user
-    table:
-      name: lieux_de_stockage
-      schema: armadacar
-  type: drop_select_permission

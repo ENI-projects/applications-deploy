@@ -34,12 +34,11 @@ Once the image is built, we can copy/paste the path of the image in the `docker-
 
 ### Launch the environment
 
-At the moment the `docker-compose.yml` launched a local environment with 5 services :
+At the moment the `docker-compose.yml` launched a local environment with 4 services :
 
 * hasura-postgres : postgres service for hasura
-* graphql-engine : hasura service mapped on the port 8080. 
-* keycloak-postgres : postgres service for keycloak
-* keycloak : keycloak service mapped on port 8081 
+* graphql-engine : hasura service mapped on the port 8080.
+* auth-hasura : a service for hasura authentification with keycloak
 * armadacar-front : application service mapped on port 8082
 
 To launch the environment we need to position ourselves in the root folder of the project in a terminal and type the following command :

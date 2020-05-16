@@ -24,7 +24,12 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_AUTH_HOOK: http://auth-hasura:3000
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
-      HASURA_GRAPHQL_MIGRATIONS_DIR: hasura-migration/migrations
+# Service for Armadacar app
+  armadacar-front:
+    image: registry.gitlab.com/startfleet/armadacar-front:v0.5
+    restart: always
+    ports:
+      - "8081:80"
 # Service for Hasura auth
   auth-hasura:
     image: httpsomkar/keycloak-hasura-connector:latest
@@ -34,51 +39,12 @@ services:
       always
     environment:
       KEYCLOAK_CLIENT_ID: hasura-keycloak-connector
-      KEYCLOAK_SERVER_URL: "http://keycloak:8080/auth"
-      KEYCLOAK_SECRET: "0feecf38-ef5a-4eac-b525-5c66a4eead8d"
+      KEYCLOAK_SERVER_URL: "https://keycloak.startfleet.ovh/auth"
+      KEYCLOAK_SECRET: "b144171a-aef4-42c2-a47e-ea4128e8a1e6"
       KEYCLOAK_REALM: local
       USER_ID_FIELD: "sub"
       KEYCLOAK_DEBUG: "true"
       ANONYMOUS_ROLE: "anonymous"
-# Service postgres for Keycloak app
-  keycloak-postgres:
-    image: postgres:11-alpine
-    restart: always
-    volumes:
-    - db_keycloak_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: keycloak_user
-      POSTGRES_PASSWORD: keycloak_password
-      POSTGRES_DB: keycloak_db
-# Service for keycloak app
-  keycloak:
-    image: jboss/keycloak:9.0.2
-    volumes:
-    - ./keycloak-local-conf:/opt/jboss/keycloak/imports
-    environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: keycloak-postgres
-      DB_PORT: 5432
-      DB_DATABASE: keycloak_db
-      DB_USER: keycloak_user
-      DB_SCHEMA: public
-      DB_PASSWORD: keycloak_password
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: Pa55w0rd
-    ports:
-      - 8081:8080
-    depends_on:
-      - keycloak-postgres
-    command: 
-      - "-Dkeycloak.import=/opt/jboss/keycloak/imports/realm-export.json"
-# Service for Armadacar app
-  armadacar-front:
-    image: registry.gitlab.com/startfleet/armadacar-front:release
-    restart: always
-    ports:
-      - "8082:80"
-    depends_on:
-      - keycloak
 volumes:
   db_hasura_data:
-  db_keycloak_data:
+

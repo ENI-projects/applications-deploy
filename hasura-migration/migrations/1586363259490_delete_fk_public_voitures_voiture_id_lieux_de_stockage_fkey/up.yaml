@@ -1,5 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: alter table "public"."voitures" drop constraint "voiture_id_lieux_de_stockage_fkey";
-  type: run_sql

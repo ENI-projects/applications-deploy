@@ -1,6 +1,0 @@
-- args:
-    relationship: voiture
-    table:
-      name: courses
-      schema: public
-  type: drop_relationship

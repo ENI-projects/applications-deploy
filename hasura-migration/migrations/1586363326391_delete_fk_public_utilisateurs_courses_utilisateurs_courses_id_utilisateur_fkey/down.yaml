@@ -1,6 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: alter table "public"."utilisateurs_courses" add foreign key ("id_utilisateur")
-      references "public"."utilisateurs"("id") on update restrict on delete restrict;
-  type: run_sql
