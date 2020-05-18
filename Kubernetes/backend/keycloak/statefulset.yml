@@ -35,3 +35,5 @@ spec:
             name: keycloak-configmap
         ports:
         - containerPort: 8080
+      imagePullSecrets:
+        - name: keycloak-registry-secret
