@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "armadacar"."voitures" ADD COLUMN "nombre_de_chevaux" integer
+      NULL;
+  type: run_sql
