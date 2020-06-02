@@ -71,4 +71,4 @@ hasura-migrations:
   tags:
     - startfleet
   script:
-    - hasura migrate apply --endpoint https://hasura.startfleet.ovh --admin-secret $HASURA_ADMIN_SECRET --project hasura-migration
+    - hasura migrate apply --endpoint https://hasura.startfleet.ovh --admin-secret $HASURA_ADMIN_SECRET --project hasura-migration --skip-update-check
