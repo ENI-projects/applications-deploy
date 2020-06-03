@@ -27,7 +27,7 @@ spec:
                 - armadacar
             topologyKey: "kubernetes.io/hostname"
       containers:
-      - image: registry.gitlab.com/startfleet/armadacar-front:release
+      - image: registry.gitlab.com/startfleet/armadacar-front:master
         imagePullPolicy: Always
         name: armadacar
         ports:
