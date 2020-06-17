@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "armadacar"."courses" ADD COLUMN "aller_retour" boolean NULL;
+  type: run_sql
