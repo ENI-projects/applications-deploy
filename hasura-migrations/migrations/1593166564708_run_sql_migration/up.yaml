@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE SEQUENCE armadacar_utilisateur_course_id_seq;
+  type: run_sql

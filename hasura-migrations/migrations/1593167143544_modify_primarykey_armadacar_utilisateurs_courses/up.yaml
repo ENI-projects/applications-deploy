@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "armadacar"."utilisateurs_courses" drop constraint "utilisateurs_courses_pkey";
+  type: run_sql
