@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: entreprise-admin-deployment
+  namespace: entreprise-admin
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: entreprise-admin
+      component: pod
+  template:
+    metadata:
+      labels:
+        app: entreprise-admin
+        component: pod
+    spec:
+      affinity:
+        #tell armadacar pods to never deploy on the same node
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - entreprise-admin
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - image: registry.gitlab.com/startfleet/entreprise-amangement-ui:master
+        imagePullPolicy: Always
+        name: entreprise-admin
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: entreprise-admin-registry-secret
