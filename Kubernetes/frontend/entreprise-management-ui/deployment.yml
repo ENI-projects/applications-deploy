@@ -27,7 +27,7 @@ spec:
                 - entreprise-admin
             topologyKey: "kubernetes.io/hostname"
       containers:
-      - image: registry.gitlab.com/startfleet/entreprise-amangement-ui:master
+      - image: registry.gitlab.com/startfleet/entreprise-management-ui:master
         imagePullPolicy: Always
         name: entreprise-admin
         ports:
