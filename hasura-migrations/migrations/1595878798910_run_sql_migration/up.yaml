@@ -1,0 +1,21 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      CREATE OR REPLACE FUNCTION armadacar.search_course_by_date_and_nbplace(datedebut date, nbdeplace integer)
+       RETURNS SETOF armadacar.voitures
+       LANGUAGE sql
+       STABLE
+      AS $function$
+              SELECT *
+              FROM armadacar.voitures v
+              WHERE NOT EXISTS (
+                  SELECT 1
+                  FROM armadacar.courses c
+                  WHERE c.id_voiture = v.id
+                  AND date(c.date_debut) <= dateDebut and date(c.date_fin) >= dateDebut
+              )
+              and v.nombre_de_places >= nbDePlace
+              LIMIT 1
+          $function$;
+  type: run_sql

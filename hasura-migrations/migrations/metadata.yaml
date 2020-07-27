@@ -247,3 +247,7 @@ tables:
           utilisateurs_courses:
             id_utilisateur:
               _eq: X-Hasura-User-Id
+functions:
+- function:
+    schema: armadacar
+    name: search_course_by_date_and_nbplace
