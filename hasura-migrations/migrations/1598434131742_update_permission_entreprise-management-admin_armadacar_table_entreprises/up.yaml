@@ -1,0 +1,19 @@
+- args:
+    permission:
+      columns:
+      - adresse
+      - code_postal
+      - departement
+      - nom
+      - responsable
+      - ville
+      filter: {}
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: entreprise-management-admin
+    table:
+      name: entreprises
+      schema: armadacar
+  type: create_update_permission

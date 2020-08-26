@@ -1,0 +1,6 @@
+- args:
+    role: entreprise-management-admin
+    table:
+      name: entreprises
+      schema: armadacar
+  type: drop_insert_permission

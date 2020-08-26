@@ -1,0 +1,20 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - id
+      - adresse
+      - code_postal
+      - departement
+      - nom
+      - responsable
+      - ville
+      - created_at
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: entreprise-management-admin
+    table:
+      name: entreprises
+      schema: armadacar
+  type: create_select_permission

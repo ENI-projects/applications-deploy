@@ -1,0 +1,20 @@
+- args:
+    permission:
+      allow_upsert: true
+      check: {}
+      columns:
+      - adresse
+      - code_postal
+      - departement
+      - nom
+      - responsable
+      - ville
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: entreprise-management-admin
+    table:
+      name: entreprises
+      schema: armadacar
+  type: create_insert_permission
