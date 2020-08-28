@@ -176,6 +176,7 @@ tables:
       - code_postal
       - departement
       - id
+      - id_entreprise
       - libelle
       - ville
       filter:
