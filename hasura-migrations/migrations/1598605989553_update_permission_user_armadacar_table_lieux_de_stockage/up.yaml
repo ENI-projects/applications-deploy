@@ -1,0 +1,28 @@
+- args:
+    role: user
+    table:
+      name: lieux_de_stockage
+      schema: armadacar
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - adresse
+      - code_postal
+      - departement
+      - id
+      - libelle
+      - ville
+      computed_fields: []
+      filter:
+        voitures:
+          courses:
+            utilisateurs_courses:
+              id_utilisateur:
+                _eq: X-Hasura-User-Id
+    role: user
+    table:
+      name: lieux_de_stockage
+      schema: armadacar
+  type: create_select_permission

@@ -35,9 +35,11 @@ tables:
   - role: user
     permission:
       columns:
+      - aller_retour
       - created_at
       - date_debut
       - date_fin
+      - id
       - id_voiture
       - lieu_arrivee
       - lieu_depart
@@ -98,8 +100,46 @@ tables:
         table:
           schema: armadacar
           name: voitures
+  insert_permissions:
+  - role: entreprise-management-admin
+    permission:
+      check: {}
+      columns:
+      - adresse
+      - code_postal
+      - departement
+      - nom
+      - responsable
+      - ville
   select_permissions:
+  - role: entreprise-management-admin
+    permission:
+      columns:
+      - id
+      - adresse
+      - code_postal
+      - departement
+      - nom
+      - responsable
+      - ville
+      - created_at
+      filter: {}
   - role: user
+    permission:
+      columns:
+      - adresse
+      - code_postal
+      - departement
+      - id
+      - nom
+      - responsable
+      - ville
+      filter:
+        utilisateurs:
+          id:
+            _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: entreprise-management-admin
     permission:
       columns:
       - adresse
@@ -108,10 +148,11 @@ tables:
       - nom
       - responsable
       - ville
-      filter:
-        utilisateurs:
-          id:
-            _eq: X-Hasura-User-Id
+      filter: {}
+  delete_permissions:
+  - role: entreprise-management-admin
+    permission:
+      filter: {}
 - table:
     schema: armadacar
     name: lieux_de_stockage
@@ -134,6 +175,7 @@ tables:
       - adresse
       - code_postal
       - departement
+      - id
       - libelle
       - ville
       filter:
@@ -238,9 +280,13 @@ tables:
     permission:
       columns:
       - energie
+      - id
+      - id_entreprise
+      - id_lieux_de_stockage
       - immatriculation
       - marque
       - modele
+      - nombre_de_chevaux
       - nombre_de_places
       filter:
         courses:

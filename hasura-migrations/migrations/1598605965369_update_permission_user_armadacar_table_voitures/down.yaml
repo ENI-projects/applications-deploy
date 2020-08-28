@@ -1,0 +1,26 @@
+- args:
+    role: user
+    table:
+      name: voitures
+      schema: armadacar
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - energie
+      - immatriculation
+      - marque
+      - modele
+      - nombre_de_places
+      computed_fields: []
+      filter:
+        courses:
+          utilisateurs_courses:
+            id_utilisateur:
+              _eq: X-Hasura-User-Id
+    role: user
+    table:
+      name: voitures
+      schema: armadacar
+  type: create_select_permission
