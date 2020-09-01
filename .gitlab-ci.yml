@@ -47,6 +47,10 @@ test-entreprise-admin:
   <<: *test-template
   script:
     - kubectl apply -f Kubernetes/frontend/entreprise-management-ui --dry-run=true
+test-user-api:
+  <<: *test-template
+  script:
+    - kubectl apply -f Kubernetes/backend/user-api --dry-run=true
 # Deploy
 deploy-hasura:
   <<: *deploy-template
@@ -69,6 +73,12 @@ deploy-entreprise-admin:
   script:
     # build and deploy keycloak app
     - kubectl apply -f Kubernetes/frontend/entreprise-management-ui
+
+deploy-user-api:
+  <<: *deploy-template
+  script:
+    # build and deploy keycloak app
+    - kubectl apply -f Kubernetes/backend/user-api
 
 hasura-migrations:
   stage: migrations

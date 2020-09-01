@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-user-deployment
+  namespace: api-user
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-user
+      component: pod
+  template:
+    metadata:
+      labels:
+        app: api-user
+        component: pod
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - api-user
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+        - image: registry.gitlab.com/startfleet/api-user-management:master
+          imagePullPolicy: Always
+          name: api-user
+          ports:
+          - containerPort: 3000
