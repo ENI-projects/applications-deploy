@@ -31,3 +31,5 @@ spec:
           name: api-user
           ports:
           - containerPort: 3000
+      imagePullSecrets:
+        - name: user-api-registry-secret
