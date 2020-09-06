@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-api-configmap
+  namespace: user-api
+data:
+  .env.production: |
+    APP_HASURA_URL="https://hasura.startfleet.ovh/v1/graphql"
+    KEYCLOAK_PROTOCOL="https"
+    KEYCLOAK_DOMAIN="keycloak.startfleet.ovh"
+    KEYCLOAK_REALM="production"
+    KEYCLOAK_CLIENT_ID="api-user"
+    KEYCLOAK_CLIENT_SECRET="d66ac5a6-fffd-4506-a899-5639cc977d47"
+    API_USER_LOGIN="user-api-user"
+    API_USER_PASSWORD="Vdtscb9R8fBhbtgsWnyzzGAd44hGPm"

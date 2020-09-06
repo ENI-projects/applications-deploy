@@ -26,10 +26,18 @@ spec:
                 - user-api
             topologyKey: "kubernetes.io/hostname"
       containers:
-        - image: registry.gitlab.com/startfleet/api-user-management:master
+        - image: registry.gitlab.com/startfleet/api-user-management:v1.1.4
           imagePullPolicy: Always
           name: user-api
           ports:
           - containerPort: 3000
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
+              readOnly: true
       imagePullSecrets:
         - name: user-api-registry-secret
+      volumes:
+        - name: config-volume
+          configMap:
+            name: user-api-configmap
