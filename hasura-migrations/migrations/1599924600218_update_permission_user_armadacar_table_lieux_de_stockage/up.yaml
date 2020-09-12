@@ -1,0 +1,24 @@
+- args:
+    permission:
+      allow_upsert: true
+      check:
+        entreprise:
+          utilisateurs:
+            id:
+              _eq: X-Hasura-User-Id
+      columns:
+      - adresse
+      - code_postal
+      - departement
+      - id_entreprise
+      - libelle
+      - ville
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: user
+    table:
+      name: lieux_de_stockage
+      schema: armadacar
+  type: create_insert_permission

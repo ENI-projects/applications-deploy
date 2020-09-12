@@ -1,0 +1,26 @@
+- args:
+    permission:
+      allow_upsert: true
+      check:
+        entreprise:
+          utilisateurs:
+            id:
+              _eq: X-Hasura-User-Id
+      columns:
+      - energie
+      - id_entreprise
+      - id_lieux_de_stockage
+      - immatriculation
+      - marque
+      - modele
+      - nombre_de_chevaux
+      - nombre_de_places
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: user
+    table:
+      name: voitures
+      schema: armadacar
+  type: create_insert_permission

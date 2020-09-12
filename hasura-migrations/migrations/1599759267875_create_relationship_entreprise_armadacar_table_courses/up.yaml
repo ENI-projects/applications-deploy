@@ -1,0 +1,13 @@
+- args:
+    name: entreprise
+    table:
+      name: courses
+      schema: armadacar
+    using:
+      manual_configuration:
+        column_mapping:
+          id_entreprise: id
+        remote_table:
+          name: entreprises
+          schema: armadacar
+  type: create_object_relationship

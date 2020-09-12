@@ -1,0 +1,22 @@
+- args:
+    permission:
+      columns:
+      - adresse
+      - code_postal
+      - departement
+      - libelle
+      - ville
+      filter:
+        entreprise:
+          utilisateurs:
+            id:
+              _eq: X-Hasura-User-Id
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: user
+    table:
+      name: lieux_de_stockage
+      schema: armadacar
+  type: create_update_permission

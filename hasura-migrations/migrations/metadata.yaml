@@ -4,6 +4,14 @@ tables:
     schema: armadacar
     name: courses
   object_relationships:
+  - name: entreprise
+    using:
+      manual_configuration:
+        remote_table:
+          schema: armadacar
+          name: entreprises
+        column_mapping:
+          id_entreprise: id
   - name: voiture
     using:
       foreign_key_constraint_on: id_voiture
@@ -19,15 +27,16 @@ tables:
   - role: user
     permission:
       check:
-        utilisateurs_courses:
-          _and:
-          - createur:
-              _eq: true
-          - id_utilisateur:
+        entreprise:
+          utilisateurs:
+            id:
               _eq: X-Hasura-User-Id
       columns:
+      - aller_retour
       - date_debut
       - date_fin
+      - id_entreprise
+      - id_voiture
       - lieu_arrivee
       - lieu_depart
       - remarque
@@ -45,9 +54,9 @@ tables:
       - lieu_depart
       - remarque
       filter:
-        utilisateurs_courses:
-          _and:
-          - id_utilisateur:
+        entreprise:
+          utilisateurs:
+            id:
               _eq: X-Hasura-User-Id
   update_permissions:
   - role: user
@@ -168,6 +177,21 @@ tables:
         table:
           schema: armadacar
           name: voitures
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        entreprise:
+          utilisateurs:
+            id:
+              _eq: X-Hasura-User-Id
+      columns:
+      - adresse
+      - code_postal
+      - departement
+      - id_entreprise
+      - libelle
+      - ville
   select_permissions:
   - role: user
     permission:
@@ -180,11 +204,32 @@ tables:
       - libelle
       - ville
       filter:
-        voitures:
-          courses:
-            utilisateurs_courses:
-              id_utilisateur:
-                _eq: X-Hasura-User-Id
+        entreprise:
+          utilisateurs:
+            id:
+              _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - adresse
+      - code_postal
+      - departement
+      - libelle
+      - ville
+      filter:
+        entreprise:
+          utilisateurs:
+            id:
+              _eq: X-Hasura-User-Id
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        entreprise:
+          utilisateurs:
+            id:
+              _eq: X-Hasura-User-Id
 - table:
     schema: armadacar
     name: utilisateurs
@@ -201,6 +246,14 @@ tables:
           schema: armadacar
           name: utilisateurs_courses
   select_permissions:
+  - role: api-user-admin
+    permission:
+      columns:
+      - id
+      - id_entreprise
+      - created_at
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -231,6 +284,7 @@ tables:
             _eq: true
       columns:
       - createur
+      - id
       - id_course
       - id_utilisateur
   select_permissions:
@@ -276,6 +330,23 @@ tables:
         table:
           schema: armadacar
           name: courses
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        entreprise:
+          utilisateurs:
+            id:
+              _eq: X-Hasura-User-Id
+      columns:
+      - energie
+      - id_entreprise
+      - id_lieux_de_stockage
+      - immatriculation
+      - marque
+      - modele
+      - nombre_de_chevaux
+      - nombre_de_places
   select_permissions:
   - role: user
     permission:
@@ -290,9 +361,34 @@ tables:
       - nombre_de_chevaux
       - nombre_de_places
       filter:
-        courses:
-          utilisateurs_courses:
-            id_utilisateur:
+        entreprise:
+          utilisateurs:
+            id:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - energie
+      - id_lieux_de_stockage
+      - immatriculation
+      - marque
+      - modele
+      - nombre_de_chevaux
+      - nombre_de_places
+      filter:
+        entreprise:
+          utilisateurs:
+            id:
+              _eq: X-Hasura-User-Id
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        entreprise:
+          utilisateurs:
+            id:
               _eq: X-Hasura-User-Id
 functions:
 - function:

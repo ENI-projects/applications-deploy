@@ -1,0 +1,30 @@
+- args:
+    role: user
+    table:
+      name: courses
+      schema: armadacar
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - aller_retour
+      - created_at
+      - date_debut
+      - date_fin
+      - id
+      - id_voiture
+      - lieu_arrivee
+      - lieu_depart
+      - remarque
+      computed_fields: []
+      filter:
+        utilisateurs_courses:
+          _and:
+          - id_utilisateur:
+              _eq: X-Hasura-User-Id
+    role: user
+    table:
+      name: courses
+      schema: armadacar
+  type: create_select_permission

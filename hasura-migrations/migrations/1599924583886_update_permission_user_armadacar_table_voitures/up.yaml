@@ -1,0 +1,12 @@
+- args:
+    permission:
+      filter:
+        entreprise:
+          utilisateurs:
+            id:
+              _eq: X-Hasura-User-Id
+    role: user
+    table:
+      name: voitures
+      schema: armadacar
+  type: create_delete_permission

@@ -1,0 +1,31 @@
+- args:
+    role: user
+    table:
+      name: courses
+      schema: armadacar
+  type: drop_insert_permission
+- args:
+    permission:
+      check:
+        entreprise:
+          utilisateurs:
+            id:
+              _eq: X-Hasura-User-Id
+      columns:
+      - aller_retour
+      - date_debut
+      - date_fin
+      - id_entreprise
+      - id_voiture
+      - lieu_arrivee
+      - lieu_depart
+      - remarque
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: user
+    table:
+      name: courses
+      schema: armadacar
+  type: create_insert_permission

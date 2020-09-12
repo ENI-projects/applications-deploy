@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "armadacar"."courses" DROP COLUMN "id_entreprise";
+  type: run_sql
