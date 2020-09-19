@@ -1,0 +1,6 @@
+- args:
+    role: api-user-admin
+    table:
+      name: utilisateurs
+      schema: armadacar
+  type: drop_delete_permission
