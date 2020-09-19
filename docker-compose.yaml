@@ -50,7 +50,7 @@ services:
       always
     environment:
       KEYCLOAK_CLIENT_ID: hasura-keycloak-connector
-      KEYCLOAK_SERVER_URL: "https://keycloak.startfleet.ovh/auth"
+      KEYCLOAK_SERVER_URL: "https://login.startfleet.ovh/auth"
       KEYCLOAK_SECRET: "b144171a-aef4-42c2-a47e-ea4128e8a1e6"
       KEYCLOAK_REALM: local
       USER_ID_FIELD: "sub"
