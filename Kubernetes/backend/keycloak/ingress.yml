@@ -6,16 +6,9 @@ metadata:
 spec:
   tls:
   - hosts:
-    - keycloak.startfleet.ovh
     - login.startfleet.ovh
     secretName: keycloak-cert-tls
   rules:
-  - host: keycloak.startfleet.ovh
-    http:
-      paths:
-      - backend:
-          serviceName: keycloak-svc
-          servicePort: 80
   - host: login.startfleet.ovh
     http:
       paths:

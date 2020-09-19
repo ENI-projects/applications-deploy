@@ -5,7 +5,7 @@ metadata:
     namespace: hasura
 data:
     KEYCLOAK_CLIENT_ID: hasura-keycloak-connector
-    KEYCLOAK_SERVER_URL: "https://keycloak.startfleet.ovh/auth"
+    KEYCLOAK_SERVER_URL: "https://login.startfleet.ovh/auth"
     KEYCLOAK_REALM: production
     USER_ID_FIELD: "sub"
     KEYCLOAK_DEBUG: "true"
