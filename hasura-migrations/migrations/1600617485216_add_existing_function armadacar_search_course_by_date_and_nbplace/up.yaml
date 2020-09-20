@@ -1,0 +1,4 @@
+- args:
+    name: search_course_by_date_and_nbplace
+    schema: armadacar
+  type: track_function
