@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: DROP FUNCTION "armadacar"."search_course_by_date_and_nbplace"("pg_catalog"."date",
+      "pg_catalog"."int4");
+  type: run_sql

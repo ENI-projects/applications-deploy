@@ -263,6 +263,10 @@ tables:
       filter:
         id:
           _eq: X-Hasura-User-Id
+  delete_permissions:
+  - role: api-user-admin
+    permission:
+      filter: {}
 - table:
     schema: armadacar
     name: utilisateurs_courses
