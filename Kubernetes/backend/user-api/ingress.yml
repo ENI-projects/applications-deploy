@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: api-user-ingress
+  namespace: user-api
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+  - hosts:
+    - api.user.startfleet.ovh
+    secretName: user-api-tls
+  rules:
+  - host: api.user.startfleet.ovh
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: user-api-svc
+          servicePort: 80
