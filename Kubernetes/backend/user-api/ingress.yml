@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - api.user.startfleet.ovh
+    - user.api.startfleet.ovh
     secretName: user-api-tls
   rules:
-  - host: api.user.startfleet.ovh
+  - host: user.api.startfleet.ovh
     http:
       paths:
       - path: /
