@@ -198,6 +198,7 @@ tables:
       columns:
       - adresse
       - code_postal
+      - created_at
       - departement
       - id
       - id_entreprise
@@ -262,7 +263,7 @@ tables:
       - id_entreprise
       filter:
         id:
-          _eq: X-Hasura-User-Id
+          _eq: X-Hasura-User-Id 
 - table:
     schema: armadacar
     name: utilisateurs_courses
@@ -351,6 +352,7 @@ tables:
   - role: user
     permission:
       columns:
+      - created_at
       - energie
       - id
       - id_entreprise
