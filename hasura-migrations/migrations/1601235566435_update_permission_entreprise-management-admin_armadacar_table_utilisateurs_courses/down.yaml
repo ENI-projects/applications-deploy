@@ -1,0 +1,6 @@
+- args:
+    role: entreprise-management-admin
+    table:
+      name: utilisateurs_courses
+      schema: armadacar
+  type: drop_delete_permission

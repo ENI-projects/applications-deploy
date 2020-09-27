@@ -1,0 +1,13 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - id_course
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: entreprise-management-admin
+    table:
+      name: utilisateurs_courses
+      schema: armadacar
+  type: create_select_permission

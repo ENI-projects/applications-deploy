@@ -1,0 +1,14 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - id
+      - id_entreprise
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: entreprise-management-admin
+    table:
+      name: utilisateurs
+      schema: armadacar
+  type: create_select_permission

@@ -1,0 +1,8 @@
+- args:
+    permission:
+      filter: {}
+    role: entreprise-management-admin
+    table:
+      name: lieux_de_stockage
+      schema: armadacar
+  type: create_delete_permission
