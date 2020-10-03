@@ -1,0 +1,17 @@
+- args:
+    permission:
+      allow_upsert: true
+      check: {}
+      columns:
+      - created_at
+      - id
+      - id_entreprise
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: api-user-admin
+    table:
+      name: utilisateurs
+      schema: armadacar
+  type: create_insert_permission
